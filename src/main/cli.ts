@@ -24,7 +24,7 @@ export function parseArgs(argv: readonly string[]): CliArgs {
     else if (a === '--add') {
       const file = argv[++i];
       if (file !== undefined) args.files.push(file);
-    } else if (a.startsWith('-')) continue;
+    } else if (a.startsWith('-') || /^%[a-zA-Z]$/.test(a)) continue;
     else args.files.push(a);
   }
   return args;

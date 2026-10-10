@@ -10,10 +10,11 @@
 
 Get the file for your computer from **[Releases](https://github.com/SunqdXX/GifEngine/releases/latest)**, open it, done.
 
-- **Windows:** `GifEngine-…-win-x64.exe`. If Windows says "Windows protected your PC", click **More info**, then **Run anyway**. Prefer no install? Use `GifEngine-…-portable.exe`.
-- **macOS:** the `.dmg` (`arm64` for Apple Silicon, `x64` for Intel). Drag GifEngine into Applications. The first time, open **System Settings → Privacy & Security** and click **Open Anyway**.
-- **Ubuntu, Debian, Mint:** the `.deb`. Double-click it to install.
-- **Other Linux:** the `.AppImage`. Right-click it, **Properties → Allow executing as a program**, then double-click it.
+- **Windows:** `GifEngine-…-win-x64.exe`. If Windows says "Windows protected your PC", click **More info**, then **Run anyway**. The installer puts GifEngine in your Start menu and on your desktop. Prefer no install? Use `GifEngine-…-portable.exe`.
+- **macOS:** the `.dmg` (`arm64` for Apple Silicon, `x64` for Intel). Drag GifEngine into Applications, then open it from Launchpad or Spotlight. The first time, open **System Settings → Privacy & Security** and click **Open Anyway**.
+- **Ubuntu, Debian, Mint:** the `.deb`. Double-click it to install, then open GifEngine from your app menu.
+- **Fedora, openSUSE:** the `.rpm`. Double-click it to install, then open GifEngine from your app menu.
+- **Arch and any other Linux:** the `.AppImage`. Right-click it, **Properties → Allow executing as a program**, then double-click it once. GifEngine adds itself to your app menu, so from then on you just open it from there like any other app.
 
 **How to use**
 

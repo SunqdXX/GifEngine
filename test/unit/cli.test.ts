@@ -59,3 +59,9 @@ describe('parseArgs --background', () => {
     expect(parseArgs([]).background).toBe(false);
   });
 });
+
+describe('parseArgs desktop-entry field codes', () => {
+  it('ignores unexpanded launcher placeholders such as %U', () => {
+    expect(parseArgs(['%U', 'a.gif', '%f']).files).toEqual(['a.gif']);
+  });
+});

@@ -45,6 +45,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y rpm
       - run: npx electron-vite build
       - run: npx electron-builder ${{ matrix.target }} --publish never
         env:
@@ -56,6 +58,7 @@ jobs:
           path: |
             release/*.AppImage
             release/*.deb
+            release/*.rpm
             release/*.tar.gz
             release/*.exe
             release/*.dmg

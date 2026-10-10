@@ -2,7 +2,7 @@ import { app } from 'electron';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-function quoteExecArg(arg: string): string {
+export function quoteExecArg(arg: string): string {
   const quoted = arg.replace(/(["`$\\])/g, '\\$1');
   return `"${quoted.replace(/\\/g, '\\\\')}"`;
 }

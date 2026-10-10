@@ -17,7 +17,7 @@ extraResources:
 artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 
 linux:
-  target: [AppImage, deb, tar.gz]
+  target: [AppImage, deb, rpm, tar.gz]
   category: Graphics
   icon: build/icon.png
   synopsis: Animated GIF / WebP / video widgets on your desktop

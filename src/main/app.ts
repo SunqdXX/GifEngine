@@ -8,6 +8,7 @@ import { ConfigStore } from './config/store';
 import { chooseDesktopBackend, findOnPath, QuickshellDesktop } from './desktop-layer';
 import { registerToggleEditBind, unregisterToggleEditBind } from './hyprland';
 import { Launcher } from './launcher';
+import { integrateAppImage } from './linux-desktop';
 import { needsX11Relaunch, relaunchCommand } from './linux-backend';
 import { pageFor, preloadFor, resourcePath, selfCommand } from './paths';
 import { handleMediaProtocol, registerMediaScheme } from './protocol';
@@ -66,6 +67,7 @@ function main(): void {
 
 function start(args: CliArgs): void {
   if (process.platform !== 'darwin') Menu.setApplicationMenu(null);
+  addToAppMenu();
 
   const store = new ConfigStore(join(app.getPath('userData'), 'config.json'));
   const backend = chooseDesktopBackend({
@@ -192,6 +194,22 @@ function start(args: CliArgs): void {
       update: (id: string, patch: WidgetPatch) => manager.update(id, patch),
       flush: () => manager.flush(),
     };
+  }
+}
+
+function addToAppMenu(): void {
+  const appImage = process.env.APPIMAGE;
+  if (process.platform !== 'linux' || !appImage) return;
+  const dataHome = process.env.XDG_DATA_HOME || join(app.getPath('home'), '.local', 'share');
+  const systemEntryDirs = (process.env.XDG_DATA_DIRS || '/usr/local/share:/usr/share')
+    .split(':')
+    .filter((d) => d && resolve(d) !== resolve(dataHome))
+    .map((d) => join(d, 'applications'));
+  try {
+    const result = integrateAppImage({ appImage, dataHome, iconSource: resourcePath('icon.png'), systemEntryDirs });
+    if (result === 'installed') console.log('[gifengine] added GifEngine to the app menu');
+  } catch (err) {
+    console.warn('[gifengine] could not add GifEngine to the app menu:', err);
   }
 }
 
