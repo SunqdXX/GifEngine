@@ -2,15 +2,9 @@ import { _electron as electron, expect, test, type ElectronApplication, type Pag
 import { spawnSync } from 'node:child_process';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
+import { electronPath, PNG_40x20, ROOT, testEnv } from './fixtures';
 
-const electronPath = require('electron') as string;
-const ROOT = resolve(__dirname, '../..');
-
-const PNG_40x20 = Buffer.from(
-  'iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAYAAAD/Rn+7AAAAK0lEQVR42u3OsQ0AAAzCMP5/mj7BVDlSdqdpl2cdICAgICAgICAgIOBn4AEyc6uNOQ3vrgAAAABJRU5ErkJggg==',
-  'base64',
-);
 const ODD_NAME = 'dot #1 ç.png';
 
 interface DebugWidget {
@@ -27,18 +21,6 @@ interface DebugWidget {
 let dir: string;
 let env: Record<string, string>;
 let app: ElectronApplication | undefined;
-
-function makeEnv(userData: string): Record<string, string> {
-  const e: Record<string, string> = {};
-  for (const [k, v] of Object.entries(process.env)) if (v !== undefined) e[k] = v;
-  delete e.WAYLAND_DISPLAY;
-  delete e.HYPRLAND_INSTANCE_SIGNATURE;
-  delete e.ELECTRON_RENDERER_URL;
-  e.XDG_SESSION_TYPE = 'x11';
-  e.GIFENGINE_TEST = '1';
-  e.GIFENGINE_USER_DATA = userData;
-  return e;
-}
 
 function launch(...args: string[]): Promise<ElectronApplication> {
   return electron.launch({ executablePath: electronPath, args: [ROOT, '--ozone-platform=x11', ...args], cwd: dir, env });
@@ -80,7 +62,7 @@ async function toggleEdit(a: ElectronApplication): Promise<void> {
 test.beforeEach(() => {
   app = undefined;
   dir = mkdtempSync(join(tmpdir(), 'gifengine-e2e-'));
-  env = makeEnv(join(dir, 'userData'));
+  env = testEnv(join(dir, 'userData'));
   writeFileSync(join(dir, ODD_NAME), PNG_40x20);
 });
 
