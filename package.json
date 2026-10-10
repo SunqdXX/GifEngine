@@ -1,0 +1,40 @@
+{
+  "name": "gifengine",
+  "productName": "GifEngine",
+  "version": "0.2.1",
+  "description": "Cross-platform desktop overlay engine for animated, transparent media widgets",
+  "license": "MIT",
+  "author": {
+    "name": "SunqdXX",
+    "email": "331240593+SunqdXX@users.noreply.github.com"
+  },
+  "main": "out/main/app.js",
+  "scripts": {
+    "postinstall": "node node_modules/electron/install.js",
+    "dev": "electron-vite dev -- --ozone-platform=x11",
+    "dev:wayland": "electron-vite dev -- --wayland",
+    "build": "electron-vite build",
+    "start": "electron-vite preview -- --ozone-platform=x11",
+    "toggle-edit": "electron . --toggle-edit",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "test": "vitest run",
+    "test:e2e": "electron-vite build && playwright test",
+    "dist": "electron-vite build && electron-builder --publish never",
+    "dist:linux": "electron-vite build && electron-builder --linux --publish never"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^24.19.2",
+    "electron": "44.7.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^5.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.7",
+    "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "homepage": "https://github.com/SunqdXX/GifEngine",
+  "desktopName": "gifengine.desktop"
+}

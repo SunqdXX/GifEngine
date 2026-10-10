@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: gifengine-media:; media-src gifengine-media:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GifEngine</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <h1>GifEngine</h1>
+          <p id="summary">Your desktop widgets</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="move" class="btn" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3 3h-2v4h-2V5H9l3-3zm0 20l-3-3h2v-4h2v4h2l-3 3zM2 12l3-3v2h4v2H5v2l-3-3zm20 0l-3 3v-2h-4v-2h4V9l3 3z" /></svg>
+          <span id="moveLabel">Move widgets</span>
+          <kbd id="kbd">Ctrl+Alt+G</kbd>
+        </button>
+        <button id="add" class="btn primary" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z" /></svg>
+          Add media
+        </button>
+        <div class="more">
+          <button id="moreBtn" class="btn icon" type="button" aria-label="More options" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" /></svg>
+          </button>
+          <div id="menu" class="menu" role="menu" hidden>
+            <button type="button" data-act="show-all" role="menuitem">Show all widgets</button>
+            <button type="button" data-act="hide-all" role="menuitem">Hide all widgets</button>
+            <label class="menu-check"><input id="autostart" type="checkbox" /> Launch at startup</label>
+            <hr />
+            <button type="button" data-act="quit" role="menuitem" class="danger">Quit GifEngine</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="banner" class="banner" hidden>
+      <span>
+        <strong>Move mode is on.</strong> Drag widgets anywhere on your screen · scroll over one to resize it.
+      </span>
+      <button id="done" class="btn small" type="button">Done</button>
+    </div>
+
+    <main>
+      <section id="empty" class="empty" hidden>
+        <div class="empty-art" aria-hidden="true"></div>
+        <h2>Drop your GIFs here</h2>
+        <p>Animated GIF, WebP and APNG, images, and WebM / MP4 / MOV videos. Transparent backgrounds stay transparent.</p>
+        <button id="emptyAdd" class="btn primary" type="button">Add media</button>
+      </section>
+      <section id="grid" class="grid" aria-label="Library"></section>
+    </main>
+
+    <div id="drop" class="drop" hidden><div>Drop to add to GifEngine</div></div>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+appId: io.github.sunqdxx.gifengine
+productName: GifEngine
+copyright: Copyright © 2026 SunqdXX
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - out/**
+  - package.json
+
+extraResources:
+  - from: resources
+    to: resources
+
+artifactName: ${productName}-${version}-${os}-${arch}.${ext}
+
+linux:
+  target: [AppImage, deb, tar.gz]
+  category: Graphics
+  icon: build/icon.png
+  synopsis: Animated GIF / WebP / video widgets on your desktop
+  description: >-
+    GifEngine places animated, transparent media (GIF, WebP, APNG, WebM, MP4) on your
+    screen as always-on-top, click-through widgets.
+  syncDesktopName: true
+  maintainer: SunqdXX <331240593+SunqdXX@users.noreply.github.com>
+
+deb:
+  depends: [libgtk-3-0, libnotify4, libnss3, libxss1, libxtst6, xdg-utils, libatspi2.0-0, libuuid1, libsecret-1-0]
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  icon: build/icon.png
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+
+portable:
+  artifactName: ${productName}-${version}-portable.${ext}
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  category: public.app-category.entertainment
+  icon: build/icon.png
+  identity: '-'
+  hardenedRuntime: false
+
+publish: null
