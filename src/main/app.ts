@@ -1,6 +1,7 @@
 import { app, dialog, globalShortcut, ipcMain, Menu } from 'electron';
 import { spawn } from 'node:child_process';
-import { join, resolve } from 'node:path';
+import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
+import { basename, join, resolve } from 'node:path';
 import { IPC, LAUNCHER, type AppStatus, type Point, type WidgetPatch } from '../shared/ipc';
 import { setLaunchAtStartup } from './autostart';
 import { parseArgs, userArgv, type CliArgs } from './cli';
@@ -10,7 +11,7 @@ import { registerToggleEditBind, unregisterToggleEditBind } from './hyprland';
 import { Launcher } from './launcher';
 import { integrateAppImage } from './linux-desktop';
 import { needsX11Relaunch, relaunchCommand } from './linux-backend';
-import { pageFor, preloadFor, resourcePath, selfCommand } from './paths';
+import { exampleSources, pageFor, preloadFor, resourcePath, selfCommand } from './paths';
 import { handleMediaProtocol, registerMediaScheme } from './protocol';
 import { createTray } from './tray';
 import { WidgetManager, type DesktopMode } from './widget-manager';
@@ -179,6 +180,7 @@ function start(args: CliArgs): void {
   });
   app.on('will-quit', () => globalShortcut.unregisterAll());
 
+  if (store.isNew && process.env.GIFENGINE_NO_EXAMPLES !== '1') installExamples(manager);
   manager.restore();
   const startupFiles = [...args.files.map((f) => resolve(f)), ...pendingOpenFiles.splice(0)];
   if (startupFiles.length) manager.add(startupFiles);
@@ -194,6 +196,21 @@ function start(args: CliArgs): void {
       update: (id: string, patch: WidgetPatch) => manager.update(id, patch),
       flush: () => manager.flush(),
     };
+  }
+}
+
+function installExamples(manager: WidgetManager): void {
+  const target = join(app.getPath('userData'), 'examples');
+  try {
+    mkdirSync(target, { recursive: true });
+    const copies = exampleSources().map((source) => {
+      const copy = join(target, basename(source));
+      if (!existsSync(copy)) copyFileSync(source, copy);
+      return copy;
+    });
+    manager.seed(copies);
+  } catch (err) {
+    console.warn('[gifengine] could not add the example animations:', err);
   }
 }
 

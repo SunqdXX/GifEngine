@@ -124,3 +124,26 @@ describe('ConfigStore', () => {
     expect(names).not.toContain('config.json');
   });
 });
+
+describe('ConfigStore first run', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = mkdtempSync(join(tmpdir(), 'gifengine-first-run-'));
+  });
+
+  afterEach(() => rmSync(dir, { recursive: true, force: true }));
+
+  it('knows when it is a fresh install and when it is not', () => {
+    const file = join(dir, 'config.json');
+    const first = new ConfigStore(file);
+    const config = first.load();
+    expect(first.isNew).toBe(true);
+    first.scheduleSave(config);
+    first.flush();
+
+    const second = new ConfigStore(file);
+    second.load();
+    expect(second.isNew).toBe(false);
+  });
+});

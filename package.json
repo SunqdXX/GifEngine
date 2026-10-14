@@ -1,7 +1,7 @@
 {
   "name": "gifengine",
   "productName": "GifEngine",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Cross-platform desktop overlay engine for animated, transparent media widgets",
   "license": "MIT",
   "author": {

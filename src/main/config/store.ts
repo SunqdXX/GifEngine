@@ -6,6 +6,7 @@ const SAVE_DEBOUNCE_MS = 500;
 
 export class ConfigStore {
   lastLoadIssue: string | null = null;
+  isNew = false;
   private pending: Config | null = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
 
@@ -13,7 +14,8 @@ export class ConfigStore {
 
   load(): Config {
     this.lastLoadIssue = null;
-    if (!existsSync(this.file)) return parseConfig({}).config;
+    this.isNew = !existsSync(this.file);
+    if (this.isNew) return parseConfig({}).config;
     let raw: unknown;
     try {
       raw = JSON.parse(readFileSync(this.file, 'utf8'));

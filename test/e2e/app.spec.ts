@@ -259,3 +259,21 @@ test('the launcher level toggle switches a widget between On top and Desktop', a
   await onTop.click();
   await expect.poll(async () => (await widgets(app!))[0]?.mode).toBe('top');
 });
+
+test('a fresh install comes with the example animations in the library, switched off', async () => {
+  delete env.GIFENGINE_NO_EXAMPLES;
+  app = await launchBackground();
+  const names = async () =>
+    ((await app!.evaluate(() => (globalThis as any).__gifengine.items())) as { name: string; hidden: boolean }[])
+      .map((i) => `${i.name}:${i.hidden ? 'off' : 'on'}`)
+      .sort();
+  await expect.poll(names, { timeout: 20_000 }).toEqual(['gifengine-blob.webp:off', 'hatsune-miku.webp:off', 'kasane-teto.webp:off']);
+  expect((await widgets(app)).length).toBe(0);
+  const paths = (await app.evaluate(() => (globalThis as any).__gifengine.items())) as { sourcePath: string }[];
+  for (const p of paths) expect(p.sourcePath.startsWith(join(dir, 'userData', 'examples'))).toBe(true);
+
+  await app.evaluate(() => (globalThis as any).__gifengine.flush());
+  await app.close();
+  app = await launchBackground();
+  await expect.poll(async () => (await app!.evaluate(() => (globalThis as any).__gifengine.items())).length, { timeout: 20_000 }).toBe(3);
+});

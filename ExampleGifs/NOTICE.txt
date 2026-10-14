@@ -1,0 +1,4 @@
+kasane-teto.webp and hatsune-miku.webp are fan animations of Kasane Teto and Hatsune Miku,
+cropped from a YouTube Short. They are included only as examples and are not covered by
+GifEngine's MIT license. All rights belong to their original creators and the character owners.
+If you made them and want them removed, open an issue on GitHub and they will be taken down.

@@ -1,5 +1,7 @@
 import { app } from 'electron';
+import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { kindFromPath } from './media';
 
 export type Page = { url: string } | { file: string };
 
@@ -20,4 +22,15 @@ export function resourcePath(file: string): string {
 export function selfCommand(): string[] {
   if (app.isPackaged) return [process.env.APPIMAGE || process.execPath];
   return [process.execPath, app.getAppPath()];
+}
+
+export function exampleSources(): string[] {
+  const dirs = app.isPackaged
+    ? [join(process.resourcesPath, 'examples')]
+    : [join(app.getAppPath(), 'ExampleGifs'), join(app.getAppPath(), 'media', 'samples')];
+  return dirs
+    .filter((dir) => existsSync(dir))
+    .flatMap((dir) => readdirSync(dir).map((name) => join(dir, name)))
+    .filter((path) => kindFromPath(path) !== null)
+    .sort();
 }

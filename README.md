@@ -18,7 +18,7 @@ Get the file for your computer from **[Releases](https://github.com/SunqdXX/GifE
 
 **How to use**
 
-1. Open GifEngine and click **Add media**, or drop files onto the window.
+1. Open GifEngine. Three example animations are already in your library, so you can try it right away. Add your own with **Add media**, or drop files onto the window.
 2. Flip the switch on a card to put that GIF on your screen.
 3. Pick **On top** to keep it above every window, or **Desktop** to put it on your wallpaper under your apps.
 4. Click **Move widgets** (or press `Ctrl+Alt+G`, `⌘⌥G` on Mac), drag your GIFs anywhere, scroll over one to resize it, then click **Done**.

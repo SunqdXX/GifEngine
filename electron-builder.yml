@@ -13,6 +13,11 @@ files:
 extraResources:
   - from: resources
     to: resources
+  - from: ExampleGifs
+    to: examples
+  - from: media/samples
+    to: examples
+    filter: ['*.webp']
 
 artifactName: ${productName}-${version}-${os}-${arch}.${ext}
 

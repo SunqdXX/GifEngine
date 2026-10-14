@@ -116,6 +116,17 @@ export class WidgetManager extends EventEmitter {
     return { rejected };
   }
 
+  seed(paths: readonly string[]): void {
+    for (const path of paths) {
+      const kind = kindFromPath(path);
+      if (!kind || this.config.widgets.some((w) => w.sourcePath === path)) continue;
+      const widget = newWidget(path, kind);
+      widget.hidden = true;
+      this.config.widgets.push(widget);
+    }
+    this.commit();
+  }
+
   update(id: string, rawPatch: WidgetPatch): void {
     const widget = this.find(id);
     const parsed = PatchSchema.safeParse(rawPatch);

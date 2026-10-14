@@ -17,5 +17,6 @@ export function testEnv(userData: string): Record<string, string> {
   e.XDG_SESSION_TYPE = 'x11';
   e.GIFENGINE_TEST = '1';
   e.GIFENGINE_USER_DATA = userData;
+  e.GIFENGINE_NO_EXAMPLES = '1';
   return e;
 }
